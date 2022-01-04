@@ -15,7 +15,7 @@ const WatchPage = () => {
 
   const getMovie = async (movieId) => {
     try {
-      const response = await axios.get(`http://localhost:3004/movies/${movieId}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/movies/${movieId}`);
       const results = _get(response, "data.data", null);
       setMovie(results);
     } catch (error) {
@@ -25,7 +25,9 @@ const WatchPage = () => {
 
   const getMovieRecommendation = async (movieId) => {
     try {
-      const response = await axios.get(`http://localhost:3004/movies/${movieId}/recommendation`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/movies/${movieId}/recommendation`
+      );
       const results = _get(response, "data.data", []);
       setMovies(results);
     } catch (error) {
@@ -35,7 +37,7 @@ const WatchPage = () => {
 
   const trackMovieByToken = async (movieId, token) => {
     try {
-      await axios.get(`http://localhost:3004/movies/${movieId}/track`, {
+      await axios.get(`${process.env.REACT_APP_API_URL}/movies/${movieId}/track`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

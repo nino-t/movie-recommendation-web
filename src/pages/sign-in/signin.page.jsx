@@ -17,7 +17,7 @@ const SignInPage = () => {
     };
 
     axios
-      .post("http://localhost:3004/login", payload)
+      .post(process.env.REACT_APP_API_URL + "/login", payload)
       .then((response) => {
         const token = _get(response, "data.data.token", "");
         const user = {

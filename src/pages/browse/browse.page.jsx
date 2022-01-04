@@ -11,7 +11,7 @@ const BrowsePage = () => {
 
   const getMovieList = async () => {
     try {
-      const response = await axios.get("http://localhost:3004/movies");
+      const response = await axios.get(process.env.REACT_APP_API_URL + "/movies");
       const results = _get(response, "data.data", []);
       setMovies(results);
     } catch (error) {
@@ -21,7 +21,7 @@ const BrowsePage = () => {
 
   const getMovieRecommendation = async (token) => {
     try {
-      const response = await axios.get(`http://localhost:3004/my-recommendation`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/my-recommendation`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
