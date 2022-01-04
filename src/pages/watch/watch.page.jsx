@@ -11,6 +11,7 @@ const WatchPage = () => {
   let v = searchParams.get("v");
   const [movie, setMovie] = React.useState(null);
   const [movies, setMovies] = React.useState([]);
+  let token = localStorage.getItem("token");
 
   const getMovie = async (movieId) => {
     try {
@@ -32,10 +33,25 @@ const WatchPage = () => {
     }
   };
 
+  const trackMovieByToken = async (movieId, token) => {
+    try {
+      await axios.get(`http://localhost:3004/movies/${movieId}/track`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log("Oops, something went wrong!", error);
+    }
+  };
+
   React.useEffect(() => {
     getMovie(v);
     getMovieRecommendation(v);
-  }, [v]);
+    if (token) {
+      trackMovieByToken(v, token);
+    }
+  }, [v, token]);
 
   if (!movie) {
     return null;

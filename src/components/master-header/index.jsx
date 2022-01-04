@@ -11,6 +11,11 @@ import {
 } from "@chakra-ui/react";
 
 const MasterHeader = () => {
+  let user = localStorage.getItem("user");
+  if (user) {
+    user = JSON.parse(user);
+  }
+
   return (
     <Box>
       <Flex
@@ -37,19 +42,37 @@ const MasterHeader = () => {
           </Link>
         </Flex>
         <Stack flex={{ base: 1, md: 0 }} justify={"flex-end"} direction={"row"} spacing={6}>
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg="#e74c3c"
-            href={"#"}
-            _hover={{
-              bg: "#c0392b",
-            }}
-          >
-            Sign In
-          </Button>
+          {user ? (
+            <Link to="/auth/signout">
+              <Button
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg="#e74c3c"
+                _hover={{
+                  bg: "#c0392b",
+                }}
+              >
+                ({user.email}) Logout
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/auth/signin">
+              <Button
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg="#e74c3c"
+                _hover={{
+                  bg: "#c0392b",
+                }}
+              >
+                Sign In
+              </Button>
+            </Link>
+          )}
         </Stack>
       </Flex>
     </Box>

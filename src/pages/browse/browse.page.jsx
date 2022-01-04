@@ -7,6 +7,7 @@ import { Box, Heading, SimpleGrid, Image, Stack, Badge } from "@chakra-ui/react"
 const BrowsePage = () => {
   const [movies, setMovies] = React.useState([]);
   const [recommendation, setRecommendation] = React.useState([]);
+  let token = localStorage.getItem("token");
 
   const getMovieList = async () => {
     try {
@@ -18,8 +19,25 @@ const BrowsePage = () => {
     }
   };
 
+  const getMovieRecommendation = async (token) => {
+    try {
+      const response = await axios.get(`http://localhost:3004/my-recommendation`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const results = _get(response, "data.data", []);
+      setRecommendation(results);
+    } catch (error) {
+      console.log("Oops, something went wrong!", error);
+    }
+  };
+
   React.useEffect(() => {
     getMovieList();
+    if (token) {
+      getMovieRecommendation(token);
+    }
   }, []);
 
   return (
